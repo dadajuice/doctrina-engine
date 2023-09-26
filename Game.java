@@ -23,28 +23,15 @@ public class Game {
     public void start() {
         frame.setVisible(true);
         updateSyncTime();
-
         while (playing) {
             bufferedImage = new BufferedImage(800, 600,
                     BufferedImage.TYPE_INT_RGB);
-
             bufferEngine = bufferedImage.createGraphics();
             bufferEngine.setRenderingHints(buildRenderingHints());
-
             update();
             drawOnBuffer();
             drawOnScreen();
-
-            long sleep = SLEEP - (System.currentTimeMillis() - before);
-            if (sleep < 4) {
-                sleep = 4;
-            }
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
-            updateSyncTime();
+            sleep();
         }
     }
 
@@ -70,6 +57,23 @@ public class Game {
         graphics.drawImage(bufferedImage, 0, 0, panel);
         Toolkit.getDefaultToolkit().sync();
         graphics.dispose();
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(getSleepTime());
+        } catch (InterruptedException exception) {
+            exception.printStackTrace();
+        }
+        updateSyncTime();
+    }
+
+    private long getSleepTime() {
+        long sleep = SLEEP - (System.currentTimeMillis() - before);
+        if (sleep < 4) {
+            sleep = 4;
+        }
+        return sleep;
     }
 
     private void initializePanel() {
