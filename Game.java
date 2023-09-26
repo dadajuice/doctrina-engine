@@ -22,7 +22,7 @@ public class Game {
 
     public void start() {
         frame.setVisible(true);
-        before = System.currentTimeMillis();
+        updateSyncTime();
 
         while (playing) {
             bufferedImage = new BufferedImage(800, 600,
@@ -48,7 +48,7 @@ public class Game {
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
-            before = System.currentTimeMillis();
+            updateSyncTime();
         }
     }
 
@@ -93,5 +93,9 @@ public class Game {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setState(JFrame.NORMAL);
         //frame.setUndecorated(true);
+    }
+
+    private void updateSyncTime() {
+        before = System.currentTimeMillis();
     }
 }
