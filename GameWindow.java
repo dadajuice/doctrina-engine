@@ -1,19 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 public class GameWindow extends JFrame {
     private static final int SLEEP = 25;
 
-    private Random rnd = new Random();
+    private Ball ball;
     private JPanel panel;
     private boolean playing = true;
-    private int radius = 25;
-    private int x = randomNumber(radius * 2, 800 - radius * 2);
-    private int y = randomNumber(radius * 2, 600 - radius * 2);
-    private int dx = randomNumber(0, 1) == 0 ? 5 : -5; // Vélocité X (vitesse + direction)
-    private int dy = randomNumber(0, 1) == 0 ? 5 : -5; // Vélocité Y (vitesse + direction)
     private BufferedImage bufferedImage;
     private Graphics2D bufferEngine;
     private long before;
@@ -32,6 +26,8 @@ public class GameWindow extends JFrame {
         panel.setFocusable(true);
         panel.setDoubleBuffered(true);
         add(panel);
+
+        ball = new Ball(25);
     }
 
     public void start() {
@@ -64,19 +60,11 @@ public class GameWindow extends JFrame {
             }
             before = System.currentTimeMillis();
         }
-
-
     }
 
     private void update() {
-        x += dx;
-        y += dy;
-        if (y <= radius || y >= 600 - radius) {
-            dy *= -1;
-            score += 10;
-        }
-        if (x <= radius || x >= 800 - radius) {
-            dx *= -1;
+        ball.update();
+        if (ball.hasTouchBound()) {
             score += 10;
         }
     }
@@ -85,8 +73,7 @@ public class GameWindow extends JFrame {
         //bufferEngine.setPaint(Color.BLUE);
         //bufferEngine.fillRect(0, 0, 800, 600);
 
-        bufferEngine.setPaint(Color.RED);
-        bufferEngine.fillOval(x, y, radius * 2, radius * 2);
+        ball.draw(bufferEngine);
 
         bufferEngine.setPaint(Color.WHITE);
         bufferEngine.drawString("Score: " + score, 10, 20);
@@ -97,9 +84,5 @@ public class GameWindow extends JFrame {
         graphics.drawImage(bufferedImage, 0, 0, panel);
         Toolkit.getDefaultToolkit().sync();
         graphics.dispose();
-    }
-
-    private int randomNumber(int min, int max) {
-        return rnd.nextInt((max - min) + 1) + min;
     }
 }
