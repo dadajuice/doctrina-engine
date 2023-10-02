@@ -19,6 +19,11 @@ public abstract class Game {
 
     public void start() {
         initialize();
+        run();
+        //conclude();
+    }
+
+    private void run() {
         renderingEngine.start();
         updateSyncTime();
         while (playing) {
