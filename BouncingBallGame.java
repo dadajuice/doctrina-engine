@@ -4,10 +4,11 @@ import java.awt.*;
 
 public class BouncingBallGame extends Game {
 
-    private final Ball ball;
+    private Ball ball;
     private int score;
 
-    public BouncingBallGame() {
+    @Override
+    protected void initialize() {
         ball = new Ball(25);
     }
 

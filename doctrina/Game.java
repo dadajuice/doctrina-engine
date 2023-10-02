@@ -9,6 +9,7 @@ public abstract class Game {
     private boolean playing = true;
     private long before;
 
+    protected abstract void initialize();
     protected abstract void update();
     protected abstract void drawOnBuffer(Graphics2D buffer);
 
@@ -17,6 +18,7 @@ public abstract class Game {
     }
 
     public void start() {
+        initialize();
         renderingEngine.start();
         updateSyncTime();
         while (playing) {
