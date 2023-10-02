@@ -1,19 +1,19 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+package doctrina;
 
-public class Game {
+import java.awt.*;
+
+public abstract class Game {
     private static final int SLEEP = 25;
 
     private RenderingEngine renderingEngine;
-    private Ball ball;
     private boolean playing = true;
     private long before;
-    private int score;
+
+    protected abstract void update();
+    protected abstract void drawOnBuffer(Graphics2D buffer);
 
     public Game() {
         renderingEngine = new RenderingEngine();
-        ball = new Ball(25);
     }
 
     public void start() {
@@ -25,19 +25,6 @@ public class Game {
             renderingEngine.drawOnScreen();
             sleep();
         }
-    }
-
-    private void update() {
-        ball.update();
-        if (ball.hasTouchBound()) {
-            score += 10;
-        }
-    }
-
-    private void drawOnBuffer(Graphics2D buffer) {
-        ball.draw(buffer);
-        buffer.setPaint(Color.WHITE);
-        buffer.drawString("Score: " + score, 10, 20);
     }
 
     private void sleep() {
@@ -57,11 +44,7 @@ public class Game {
         return sleep;
     }
 
-
-
     private void updateSyncTime() {
         before = System.currentTimeMillis();
     }
-
-
 }
