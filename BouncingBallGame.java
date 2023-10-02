@@ -2,7 +2,7 @@ import doctrina.Game;
 
 import java.awt.*;
 
-public class BouncingBallGame extends Game {
+public final class BouncingBallGame extends Game {
 
     private Ball ball;
     private int score;
