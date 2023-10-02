@@ -1,3 +1,4 @@
+import doctrina.Canvas;
 import doctrina.Game;
 
 import java.awt.*;
@@ -21,9 +22,8 @@ public final class BouncingBallGame extends Game {
     }
 
     @Override
-    protected void drawOnBuffer(Graphics2D buffer) {
-        ball.draw(buffer);
-        buffer.setPaint(Color.WHITE);
-        buffer.drawString("Score: " + score, 10, 20);
+    protected void draw(Canvas canvas) {
+        ball.draw(canvas);
+        canvas.drawString("Score: " + score, 10, 20, Color.WHITE);
     }
 }

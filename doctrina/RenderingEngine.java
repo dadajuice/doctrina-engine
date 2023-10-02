@@ -25,12 +25,12 @@ public class RenderingEngine {
         frame.dispose();
     }
 
-    public Graphics2D buildBuffer() {
+    public Canvas buildCanvas() {
         bufferedImage = new BufferedImage(800, 600,
                 BufferedImage.TYPE_INT_RGB);
         buffer = bufferedImage.createGraphics();
         buffer.setRenderingHints(buildRenderingHints());
-        return buffer;
+        return new Canvas(buffer);
     }
 
     public void drawOnScreen() {
