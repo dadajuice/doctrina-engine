@@ -4,20 +4,15 @@ import java.awt.event.KeyListener;
 
 public abstract class Game {
 
-    private RenderingEngine renderingEngine;
+    private final RenderingEngine renderingEngine;
     private boolean playing = true;
-    private GameTime gameTime;
 
     protected abstract void initialize();
     protected abstract void update();
     protected abstract void draw(Canvas canvas);
 
     public Game() {
-        renderingEngine = new RenderingEngine();
-    }
-
-    public final void addKeyListener(KeyListener keyListener) {
-        renderingEngine.addKeyListener(keyListener);
+        renderingEngine = RenderingEngine.getInstance();
     }
 
     public final void start() {
@@ -32,7 +27,7 @@ public abstract class Game {
 
     private void run() {
         renderingEngine.start();
-        gameTime = new GameTime();
+        GameTime gameTime = new GameTime();
         while (playing) {
             update();
             draw(renderingEngine.buildCanvas());

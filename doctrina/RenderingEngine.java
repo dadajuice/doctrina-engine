@@ -7,14 +7,17 @@ import java.awt.image.BufferedImage;
 
 public class RenderingEngine {
 
+    private static RenderingEngine instance;
     private JFrame frame;
     private JPanel panel;
     private BufferedImage bufferedImage;
     private Graphics2D buffer;
 
-    public RenderingEngine() {
-        initializeFrame();
-        initializePanel();
+    public static RenderingEngine getInstance() {
+        if (instance == null) {
+            instance = new RenderingEngine();
+        }
+        return instance;
     }
 
     public void start() {
@@ -71,5 +74,10 @@ public class RenderingEngine {
         hints.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
         return hints;
+    }
+
+    private RenderingEngine() {
+        initializeFrame();
+        initializePanel();
     }
 }
