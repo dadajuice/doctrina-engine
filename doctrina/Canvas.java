@@ -15,6 +15,11 @@ public class Canvas {
         graphics.fillRect(x, y, width, height);
     }
 
+    public void drawRectangle(StaticEntity entity, Paint paint) {
+        graphics.setPaint(paint);
+        graphics.fillRect(entity.x, entity.y, entity.width, entity.height);
+    }
+
     public void drawCircle(int x, int y, int radius, Paint paint) {
         graphics.setPaint(paint);
         graphics.fillOval(x, y, radius * 2, radius * 2);
