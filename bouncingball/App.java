@@ -1,5 +1,6 @@
+package bouncingball;
+
 import doctrina.Game;
-import doctrina.GameTime;
 
 public class App {
 
