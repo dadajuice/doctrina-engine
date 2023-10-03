@@ -2,6 +2,7 @@ package doctrina;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class RenderingEngine {
@@ -23,6 +24,10 @@ public class RenderingEngine {
     public void stop() {
         frame.setVisible(false);
         frame.dispose();
+    }
+
+    public void addKeyListener(KeyListener keyListener) {
+        panel.addKeyListener(keyListener);
     }
 
     public Canvas buildCanvas() {
