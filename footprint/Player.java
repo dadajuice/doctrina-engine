@@ -7,11 +7,14 @@ import java.awt.*;
 
 public class Player extends ControllableEntity {
 
-    public Player(GamePad gamePad) {
+    private final Color color;
+
+    public Player(GamePad gamePad, Color color) {
         super(gamePad);
         teleport(200, 200);
         setDimension(20, 60);
         setSpeed(3);
+        this.color = color;
     }
 
     public Footprint layFootprint() {
@@ -25,6 +28,6 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawRectangle(this, Color.WHITE);
+        canvas.drawRectangle(this, color);
     }
 }
