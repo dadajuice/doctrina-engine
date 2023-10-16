@@ -1,31 +1,29 @@
 package footprint;
 
 import doctrina.Canvas;
-import doctrina.MovableEntity;
+import doctrina.ControllableEntity;
 
 import java.awt.*;
 
-public class Player extends MovableEntity {
-
-    private GamePad gamePad;
+public class Player extends ControllableEntity {
 
     public Player(GamePad gamePad) {
+        super(gamePad);
         teleport(200, 200);
         setDimension(20, 60);
         setSpeed(3);
-        this.gamePad = gamePad;
     }
 
     public Footprint layFootprint() {
         return new Footprint(x, y);
     }
 
+    @Override
     public void update() {
-        if (gamePad.isMoving()) {
-            move(gamePad.getDirection());
-        }
+        moveWithController();
     }
 
+    @Override
     public void draw(Canvas canvas) {
         canvas.drawRectangle(this, Color.WHITE);
     }
