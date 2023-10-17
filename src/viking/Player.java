@@ -2,6 +2,7 @@ package viking;
 
 import doctrina.Canvas;
 import doctrina.ControllableEntity;
+import doctrina.Direction;
 import doctrina.MovementController;
 
 import javax.imageio.ImageIO;
@@ -12,12 +13,15 @@ import java.io.IOException;
 public class Player extends ControllableEntity {
 
     private static final String SPRITE_PATH = "images/player.png";
+    private static final int ANIMATION_SPEED = 8;
 
     private BufferedImage spriteSheet;
     private Image[] rightFrames;
     private Image[] leftFrames;
     private Image[] upFrames;
     private Image[] downFrames;
+    private int currentAnimationFrame = 1; // idle frame (middle)
+    private int nextFrame = ANIMATION_SPEED;
 
     public Player(MovementController controller) {
         super(controller);
@@ -30,11 +34,31 @@ public class Player extends ControllableEntity {
     public void update() {
         super.update();
         moveWithController();
+        if (hasMoved()) {
+            --nextFrame;
+            if (nextFrame == 0) {
+                ++currentAnimationFrame;
+                if (currentAnimationFrame >= leftFrames.length) {
+                    currentAnimationFrame = 0;
+                }
+                nextFrame = ANIMATION_SPEED;
+            }
+        } else {
+            currentAnimationFrame = 1; // idle
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawImage(downFrames[1], x, y);
+        if (getDirection() == Direction.RIGHT) {
+            canvas.drawImage(rightFrames[currentAnimationFrame], x, y);
+        } else if (getDirection() == Direction.LEFT) {
+            canvas.drawImage(leftFrames[currentAnimationFrame], x, y);
+        } else if (getDirection() == Direction.UP) {
+            canvas.drawImage(upFrames[currentAnimationFrame], x, y);
+        } else if (getDirection() == Direction.DOWN) {
+            canvas.drawImage(downFrames[currentAnimationFrame], x, y);
+        }
     }
 
     private void load() {
