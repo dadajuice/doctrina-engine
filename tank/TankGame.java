@@ -1,7 +1,9 @@
 package tank;
 
 import doctrina.Canvas;
+import doctrina.CollidableRepository;
 import doctrina.Game;
+import doctrina.StaticEntity;
 
 import java.util.ArrayList;
 
@@ -34,9 +36,27 @@ public class TankGame extends Game {
             missiles.add(tank.fire());
         }
         tank.update();
+        ArrayList<StaticEntity> killedElements = new ArrayList<>();
+
         for (Missile missile : missiles) {
             missile.update();
+            for (Brick brick : bricks) {
+                if (missile.hitBoxIntersectWith(brick)) {
+                    killedElements.add(missile);
+                    killedElements.add(brick);
+                }
+            }
         }
+
+        for (StaticEntity killedElement : killedElements) {
+            if (killedElement instanceof Brick) {
+                bricks.remove(killedElement);
+            }
+            if (killedElement instanceof Missile) {
+                missiles.remove(killedElement);
+            }
+        }
+        CollidableRepository.getInstance().unregisterEntities(killedElements);
     }
 
     @Override
