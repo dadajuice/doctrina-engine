@@ -1,7 +1,5 @@
 package doctrina;
 
-import java.awt.event.KeyListener;
-
 public abstract class Game {
 
     private final RenderingEngine renderingEngine;
