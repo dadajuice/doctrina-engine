@@ -6,12 +6,30 @@ public abstract class MovableEntity extends StaticEntity {
 
     private int speed = 1;
     private Direction direction = Direction.UP;
+    private Collision collision;
+    private int lastX = Integer.MIN_VALUE;
+    private int lastY = Integer.MIN_VALUE;
+    private boolean moved = false;
 
-    public abstract void update();
+    public void update() {
+        moved = false;
+    }
+
+    public MovableEntity() {
+        collision = new Collision(this);
+    }
 
     public void move() {
-        x += direction.calculateVelocityX(speed);
-        y += direction.calculateVelocityY(speed);
+        int allowedSpeed = collision.getAllowedSpeed(direction);
+        x += direction.calculateVelocityX(allowedSpeed);
+        y += direction.calculateVelocityY(allowedSpeed);
+        moved = (x != lastX || y != lastY);
+        lastX = x;
+        lastY = y;
+    }
+
+    public boolean hasMoved() {
+        return moved;
     }
 
     public void move(Direction direction) {
