@@ -17,8 +17,7 @@ public class VikingGame extends Game {
         player.teleport(200, 200);
         world = new World();
         world.load();
-        tree = new Tree();
-        tree.teleport(300, 350);
+        tree = new Tree(300, 350);
     }
 
     @Override
@@ -27,6 +26,11 @@ public class VikingGame extends Game {
             stop();
         }
         player.update();
+        if (player.getY() < tree.getY() + 52) {
+            tree.blockadeFromTop();
+        } else {
+            tree.blockadeFromBottom();
+        }
     }
 
     @Override
