@@ -3,12 +3,18 @@ package viking;
 import doctrina.Canvas;
 import doctrina.Game;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+
 public class VikingGame extends Game {
 
     private Player player;
     private GamePad gamePad;
     private World world;
     private Tree tree;
+    private int soundCooldown;
 
     @Override
     protected void initialize() {
@@ -30,6 +36,24 @@ public class VikingGame extends Game {
             tree.blockadeFromTop();
         } else {
             tree.blockadeFromBottom();
+        }
+
+        soundCooldown--;
+        if (soundCooldown < 0) {
+            soundCooldown = 0;
+        }
+
+        if (gamePad.isFirePressed() && soundCooldown == 0) {
+            soundCooldown = 100;
+            try {
+                Clip clip = AudioSystem.getClip();
+                AudioInputStream stream = AudioSystem.getAudioInputStream(
+                        this.getClass().getClassLoader().getResourceAsStream("audios/fire.wav"));
+                clip.open(stream);
+                clip.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
