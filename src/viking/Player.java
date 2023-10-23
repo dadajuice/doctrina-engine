@@ -1,9 +1,7 @@
 package viking;
 
+import doctrina.*;
 import doctrina.Canvas;
-import doctrina.ControllableEntity;
-import doctrina.Direction;
-import doctrina.MovementController;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -58,6 +56,9 @@ public class Player extends ControllableEntity {
             canvas.drawImage(upFrames[currentAnimationFrame], x, y);
         } else if (getDirection() == Direction.DOWN) {
             canvas.drawImage(downFrames[currentAnimationFrame], x, y);
+        }
+        if (GameConfig.isDebugEnabled()) {
+            drawHitBox(canvas);
         }
     }
 

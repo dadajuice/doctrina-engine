@@ -2,6 +2,7 @@ package viking;
 
 import doctrina.Blockade;
 import doctrina.Canvas;
+import doctrina.GameConfig;
 import doctrina.StaticEntity;
 
 import javax.imageio.ImageIO;
@@ -25,7 +26,9 @@ public class Tree extends StaticEntity {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawImage(image, x, y);
-        //blockade.draw(canvas);
+        if (GameConfig.isDebugEnabled()) {
+            blockade.draw(canvas);
+        }
     }
 
     public void blockadeFromTop() {
