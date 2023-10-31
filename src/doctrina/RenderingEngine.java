@@ -8,10 +8,9 @@ import java.awt.image.BufferedImage;
 public class RenderingEngine {
 
     private static RenderingEngine instance;
-    private JFrame frame;
     private JPanel panel;
     private BufferedImage bufferedImage;
-    private Graphics2D buffer;
+    private Screen screen;
 
     public static RenderingEngine getInstance() {
         if (instance == null) {
@@ -20,13 +19,16 @@ public class RenderingEngine {
         return instance;
     }
 
+    public Screen getScreen() {
+        return screen;
+    }
+
     public void start() {
-        frame.setVisible(true);
+        screen.start();
     }
 
     public void stop() {
-        frame.setVisible(false);
-        frame.dispose();
+        screen.stop();
     }
 
     public void addKeyListener(KeyListener keyListener) {
@@ -36,14 +38,17 @@ public class RenderingEngine {
     public Canvas buildCanvas() {
         bufferedImage = new BufferedImage(800, 600,
                 BufferedImage.TYPE_INT_RGB);
-        buffer = bufferedImage.createGraphics();
+        Graphics2D buffer = bufferedImage.createGraphics();
         buffer.setRenderingHints(buildRenderingHints());
         return new Canvas(buffer);
     }
 
     public void drawOnScreen() {
         Graphics2D graphics = (Graphics2D) panel.getGraphics();
-        graphics.drawImage(bufferedImage, 0, 0, panel);
+        graphics.drawImage(bufferedImage, 0, 0,
+                screen.getWidth(), screen.getHeight(),
+                0, 0,
+                bufferedImage.getWidth(), bufferedImage.getHeight(), null);
         Toolkit.getDefaultToolkit().sync();
         graphics.dispose();
     }
@@ -53,18 +58,7 @@ public class RenderingEngine {
         panel.setBackground(Color.BLUE);
         panel.setFocusable(true);
         panel.setDoubleBuffered(true);
-        frame.add(panel);
-    }
-
-    private void initializeFrame() {
-        frame = new JFrame();
-        frame.setSize(800, 600);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setTitle("Doctrina Game");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setState(JFrame.NORMAL);
-        frame.setUndecorated(true);
+        screen.setPanel(panel);
     }
 
     private RenderingHints buildRenderingHints() {
@@ -77,7 +71,12 @@ public class RenderingEngine {
     }
 
     private RenderingEngine() {
-        initializeFrame();
+        initializeScreen();
         initializePanel();
+    }
+
+    private void initializeScreen() {
+        screen = new Screen();
+        screen.setSize(800, 600);
     }
 }
