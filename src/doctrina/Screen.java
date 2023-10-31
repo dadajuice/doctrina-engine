@@ -45,7 +45,7 @@ public class Screen {
         if (frameIsVisible) {
             frame.setVisible(true);
         }
-        fullscreenDisplayMode = findClosestDisplayMode(width, height);
+        //fullscreenDisplayMode = findClosestDisplayMode(width, height);
         System.out.println("Fullscreen Mode: " + fullscreenDisplayMode.getWidth() + "x" + fullscreenDisplayMode.getHeight());
     }
 
@@ -121,6 +121,7 @@ public class Screen {
 
     private void initializeDevice() {
         device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        fullscreenDisplayMode = device.getDisplayMode();
         // windowedDisplayMode = device.getDisplayMode();
     }
 }
