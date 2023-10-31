@@ -36,8 +36,7 @@ public class RenderingEngine {
     }
 
     public Canvas buildCanvas() {
-        bufferedImage = new BufferedImage(800, 600,
-                BufferedImage.TYPE_INT_RGB);
+
         Graphics2D buffer = bufferedImage.createGraphics();
         buffer.setRenderingHints(buildRenderingHints());
         return new Canvas(buffer);
@@ -78,5 +77,7 @@ public class RenderingEngine {
     private void initializeScreen() {
         screen = new Screen();
         screen.setSize(800, 600);
+        bufferedImage = new BufferedImage(800, 600,
+                BufferedImage.TYPE_INT_RGB);
     }
 }
